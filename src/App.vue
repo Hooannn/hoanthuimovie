@@ -1,32 +1,70 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <login-modal/>
+    <signup-modal/>
+    <loading-view/>
     <router-view/>
   </div>
 </template>
-
+<script>
+import LoginModal from './components/Modal/LoginModal.vue'
+import SignupModal from './components/Modal/SignupModal.vue'
+import LoadingView from './LoadingView.vue'
+export default {
+  components: { LoadingView, LoginModal, SignupModal },
+  mounted() {
+    document.addEventListener("mousewheel", function(event){
+      if(event.wheelDelta >= 100){
+        document.querySelector('#app>div.home-view>#nav-bar').classList.add('show')
+      }else{
+        document.querySelector('#app>div.home-view>#nav-bar').classList.remove('show')
+      }
+    })
+  },
+  destroyed() {
+    document.removeEventListener("mousewheel", function(event){
+      if(event.wheelDelta >= 100){
+        document.querySelector('#app>div.home-view>#nav-bar').classList.add('show')
+      }else{
+        document.querySelector('#app>div.home-view>#nav-bar').classList.remove('show')
+      }
+    })
+  }
+}
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Poppins:wght@200;400&display=swap');
+:root {
+  --dark:#313131;
+  --orange:rgb(255, 117, 85);
+  --rose:#fb5252;
 }
-
-nav {
-  padding: 30px;
+.modal-backdrop {
+  background-color:rgba(0,0,0,0.4);
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+input[type=number] {
+  -moz-appearance: textfield;
+}
+body {
+  overflow-x:hidden;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  padding:0;
+  margin:0;
+  user-select: none;
+  background-color:rgb(40, 40, 40,0.8);
+}
+body > div.nanobar .bar {
+  background:orange;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

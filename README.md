@@ -1,19 +1,9 @@
-# movie
+# Movie Research
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Build by VueJs, using [TMDB](https://developers.themoviedb.org/3/getting-started/introduction) api
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Demo
+See [hoanthuimovie](https://hoanthuimovie.netlify.app/).

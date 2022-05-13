@@ -5,6 +5,8 @@ import store from './store/store'
 import nanobar from './plugins/nanobar'
 import { ToastPlugin } from 'bootstrap-vue'
 import { ModalPlugin } from 'bootstrap-vue'
+import VueEllipseProgress from 'vue-ellipse-progress';
+Vue.use(VueEllipseProgress);
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
 Vue.config.productionTip = false

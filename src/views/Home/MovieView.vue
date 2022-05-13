@@ -50,7 +50,7 @@ export default {
       this.$router.push({name:"movie-view",params:{type:this.$route.params.type,page:parseInt(this.currentPage,10)-1}})
     },  
     nextPage() {
-      if (this.currentPage==66) {
+      if (this.currentPage==this.totalPages) {
         return
       }
       this.$router.push({name:"movie-view",params:{type:this.$route.params.type,page:parseInt(this.currentPage,10)+1}})
@@ -69,7 +69,7 @@ export default {
         })
     },
     fastGo() {
-      if (this.currentPage>66) {
+      if (this.currentPage>this.totalPages) {
         return
       }
       this.$router.push({name:"movie-view",params:{type:this.$route.params.type,page:this.currentPage}})

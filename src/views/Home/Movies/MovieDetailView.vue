@@ -1,6 +1,6 @@
 <template>
   <div class="movie-detail-view">
-      <movie-overview :backdropPath='movie.backdrop_path' :movie='movie'/>
+      <movie-overview :externalID='externalID' :director='getDirector' :backdropPath='movie.backdrop_path' :movie='movie'/>
       <movie-cast />
       <movie-crew />
       <movie-trailer/>
@@ -21,7 +21,13 @@ export default {
         return {
             movie:{},
             cast:[],
-            crew:[]
+            crew:[],
+            externalID:{},
+        }
+    },
+    computed: {
+        getDirector() {
+            return this.crew.find(p=>p.job=="Director")
         }
     },
     mounted() {
@@ -35,7 +41,13 @@ export default {
             axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/credits?api_key=${this.$store.state.app.apiKey}&language=en-US`).then((res)=>{
                 this.cast=res.data.cast
                 this.crew=res.data.crew
-                this.$store.dispatch('unload')
+                axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/external_ids?api_key=${this.$store.state.app.apiKey}`).then((res)=>{
+                    this.externalID=res.data
+                    this.$store.dispatch('unload')
+                }).catch(err=>{
+                    alert(err)
+                    this.$store.dispatch('unload')
+                })
             }).catch(err=>{
                 alert(err)
                 this.$store.dispatch('unload')

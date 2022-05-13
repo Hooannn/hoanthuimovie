@@ -1,9 +1,9 @@
 <template>
   <div class="movie-detail-view">
-      <movie-overview :externalID='externalID' :director='getDirector' :backdropPath='movie.backdrop_path' :movie='movie'/>
-      <movie-cast />
+      <movie-overview :trailer='getTrailer' :keywords='keywords' :externalID='externalID' :director='getDirector' :backdropPath='movie.backdrop_path' :movie='movie'/>
+      <movie-cast :cast='cast'/>
       <movie-crew />
-      <movie-trailer/>
+      <movie-videos/>
       <movie-recommend/>
   </div>
 </template>
@@ -12,22 +12,27 @@
 import axios from 'axios'
 import MovieCast from '@/components/MoviesDetail/MovieCast.vue'
 import MovieRecommend from '@/components/MoviesDetail/MovieRecommend.vue'
-import MovieTrailer from '@/components/MoviesDetail/MovieTrailer.vue'
+import MovieVideos from '@/components/MoviesDetail/MovieVideos.vue'
 import MovieOverview from '@/components/MoviesDetail/MovieOverview.vue'
 import MovieCrew from '@/components/MoviesDetail/MovieCrew.vue'
 export default {
-  components: { MovieOverview, MovieCast, MovieRecommend, MovieTrailer, MovieCrew },
+  components: { MovieOverview, MovieCast, MovieRecommend, MovieVideos, MovieCrew },
     data() {
         return {
             movie:{},
             cast:[],
             crew:[],
             externalID:{},
+            keywords:[],
+            videos:[],
         }
     },
     computed: {
         getDirector() {
             return this.crew.find(p=>p.job=="Director")
+        },
+        getTrailer() {
+            return this.videos.find(v=>v.type=="Trailer")
         }
     },
     mounted() {
@@ -43,7 +48,19 @@ export default {
                 this.crew=res.data.crew
                 axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/external_ids?api_key=${this.$store.state.app.apiKey}`).then((res)=>{
                     this.externalID=res.data
-                    this.$store.dispatch('unload')
+                    axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/keywords?api_key=${this.$store.state.app.apiKey}`).then((res)=>{
+                        this.keywords=res.data.keywords
+                        axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/videos?api_key=${this.$store.state.app.apiKey}&language=en-US`).then((res)=>{
+                            this.videos=res.data.results
+                            this.$store.dispatch('unload')
+                        }).catch(err=>{
+                            alert(err)
+                            this.$store.dispatch('unload')
+                        })
+                    }).catch(err=>{
+                        alert(err)
+                        this.$store.dispatch('unload')
+                    })
                 }).catch(err=>{
                     alert(err)
                     this.$store.dispatch('unload')

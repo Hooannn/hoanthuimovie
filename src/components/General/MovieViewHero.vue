@@ -5,7 +5,7 @@
             <div :key='resK1' class='mi-text'>
                 <h1 >{{movies[key1].title}}</h1>
                 <h4 style='color:whitesmoke'>SCORE: {{movies[key1].vote_average}} </h4>
-                <button class="btn btn btn-light">Check it now.</button>
+                <button @click='$router.push({name:"movie-detail",params:{id:movies[key1].id}})' class="btn btn btn-light">Check it now.</button>
             </div>
             <img v-if='movies[key1].backdrop_path!=null' class='mi-img' :src='"https://image.tmdb.org/t/p/w1280"+movies[key1].backdrop_path'>
             <img v-if='movies[key1].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
@@ -14,28 +14,28 @@
             <div :key='resK2' class='mi-text'>
                 <h1 >{{movies[key2].title}}</h1>
                 <h4 style='color:whitesmoke'>SCORE: {{movies[key2].vote_average}} </h4>
-                <button class="btn btn btn-light">Check it now.</button>
+                <button @click='$router.push({name:"movie-detail",params:{id:movies[key2].id}})' class="btn btn btn-light">Check it now.</button>
             </div>
             <img v-if='movies[key2].backdrop_path!=null' class='mi-img' :src='"https://image.tmdb.org/t/p/w1280"+movies[key2].backdrop_path'>
-            <img v-if='movies[key1].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
+            <img v-if='movies[key2].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
       </div>
       <div class="movie-intro">
             <div :key='resK3' class='mi-text'>
                 <h1 >{{movies[key3].title}}</h1>
                 <h4 style='color:whitesmoke'>SCORE: {{movies[key3].vote_average}} </h4>
-                <button class="btn btn btn-light">Check it now.</button>
+                <button @click='$router.push({name:"movie-detail",params:{id:movies[key3].id}})' class="btn btn btn-light">Check it now.</button>
             </div>
             <img v-if='movies[key3].backdrop_path!=null' class='mi-img' :src='"https://image.tmdb.org/t/p/w1280"+movies[key3].backdrop_path'>
-            <img v-if='movies[key1].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
+            <img v-if='movies[key3].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
       </div>
       <div class="movie-intro">
             <div :key='resK4' class='mi-text'>
                 <h1 >{{movies[key4].title}}</h1>
                 <h4 style='color:whitesmoke'>SCORE: {{movies[key4].vote_average}} </h4>
-                <button class="btn btn btn-light">Check it now.</button>
+                <button @click='$router.push({name:"movie-detail",params:{id:movies[key4].id}})' class="btn btn btn-light">Check it now.</button>
             </div>
             <img v-if='movies[key4].backdrop_path!=null' class='mi-img' :src='"https://image.tmdb.org/t/p/w1280"+movies[key4].backdrop_path'>
-            <img v-if='movies[key1].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
+            <img v-if='movies[key4].backdrop_path==null' class='mi-img' src='https://wallpaperaccess.com/full/1365735.jpg"'>
       </div>
       <template slot="next"><span class="next"><ion-icon style='zIndex:50;fontSize:30px' class='next-icon' name="chevron-forward-circle-outline"></ion-icon></span></template>
   </carousel>
@@ -131,6 +131,7 @@ export default {
     left:5%;
     color:orangered;
     animation:slide-up 2s ease-in-out;
+    font-family:monospace;
 }
 /* keyframe */
 @keyframes move-left {

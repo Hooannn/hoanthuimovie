@@ -11,8 +11,11 @@ import NavBar from '@/components/Navigation/NavBar.vue'
 import FooterBar from '@/components/Navigation/FooterBar.vue'
 export default {
   components: { NavBar, FooterBar },
-  mounted() {
-    
+  beforeRouteEnter(to,from,next) {
+    if (to.name=="home") {
+      next('/now_playing/1')
+    }
+    next()
   }
 }
 </script>

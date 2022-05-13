@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-trailer">
+  <div class="movie-videos">
       
   </div>
 </template>

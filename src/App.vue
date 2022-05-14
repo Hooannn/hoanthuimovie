@@ -58,6 +58,7 @@ body {
   margin:0;
   user-select: none;
   background-color:rgb(40, 40, 40,0.8);
+  background-color:#06121e;
 }
 body > div.nanobar .bar {
   background:orange;

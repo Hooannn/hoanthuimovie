@@ -211,7 +211,7 @@ export default {
     width: 100%;
     height: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 992px) {
     #nav-bar .nav-mobile {
         display: block;
     }

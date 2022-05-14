@@ -54,14 +54,14 @@
               <div><span style='color:silver;fontWeight:lighter'>Budget: </span><span style='fontWeight:lighter'>{{movie.budget|formatMoney}}</span></div>
               <div><span style='color:silver;fontWeight:lighter'>Revenue: </span><span style='fontWeight:lighter'>{{movie.revenue|formatMoney}}</span></div>
             </div>
-            <div style='width:250px;display:flex;alignItems:center;justifyContent:space-between' class="momd-director"><span style='color:rgba(255,255,255,0.7);fontSize:15px;'>DIRECTOR</span> <span style='color:white;'>{{director.name.toUpperCase()}}</span></div>
-            <div style='width:250px;display:flex;alignItems:center;justifyContent:space-between' class="momd-country">
+            <div style='display:flex;alignItems:center;justifyContent:space-between' class="momd-director"><span style='color:rgba(255,255,255,0.7);fontSize:15px;'>DIRECTOR</span> <span style='color:white;'>{{director.name.toUpperCase()}}</span></div>
+            <div style='display:flex;alignItems:center;justifyContent:space-between' class="momd-country">
               <span style='color:rgba(255,255,255,0.7);fontSize:15px;'>COUNTRY</span>
               <div>
                 <span v-for='(country,index) in movie.production_countries' :key='country.iso_3166_1' style='color:white;'>{{country.iso_3166_1}} <span v-if='index!=movie.production_countries.length-1'> , </span></span>
               </div>
             </div>
-            <div style='width:250px;display:flex;alignItems:center;justifyContent:space-between' class="momd-releasedate"><span style='color:rgba(255,255,255,0.7);fontSize:15px;'>RELEASE DATE</span> <span style='color:white;'>{{movie.release_date}}</span></div>
+            <div style='display:flex;alignItems:center;justifyContent:space-between' class="momd-releasedate"><span style='color:rgba(255,255,255,0.7);fontSize:15px;'>RELEASE DATE</span> <span style='color:white;'>{{movie.release_date}}</span></div>
             <div class="momd-overview"><span style='color:rgba(255,255,255,0.7);fontSize:15px;'>OVERVIEW</span> <br> <span style='color:white;fontSize:14.5px;'>{{movie.overview}}</span></div>
             <div v-if='keywords.length>0' class="momd-keywords">
               <span style='color:rgba(255,255,255,0.7);fontSize:15px;'>KEYWORDS</span> 
@@ -143,7 +143,7 @@ export default {
 
 <style>
 .movie-overview {
-  height: 900px;
+  height: auto;
   max-height: auto;
   width: 100%;
   position: relative;
@@ -167,9 +167,11 @@ export default {
   width:720px;
   height:400px;
 }
-
-.movie-overview .mo-main {
+.movie-overview>img {
   position: absolute;
+  z-index: -1;
+}
+.movie-overview .mo-main {
   top:0;
   left:0;
   width: 100%;
@@ -180,6 +182,7 @@ export default {
 .movie-overview .mo-main .container {
   position: relative;
   padding-top:80px;
+  padding-bottom: 30px;
   display: flex;
 }
 .movie-overview .mo-main .mom-poster {
@@ -261,6 +264,11 @@ export default {
   cursor: pointer;
   transition: .2s linear;
 }
+.movie-overview .mo-main .mom-detail .momd-director,
+.movie-overview .mo-main .mom-detail .momd-country,
+.movie-overview .mo-main .mom-detail .momd-releasedate {
+  width: 250px;
+}
 .movie-overview .mo-main .mom-detail .momd-genres .momdg-genre:hover {
   background-color:rgb(255, 117, 85,0.3);
 }
@@ -327,4 +335,41 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+
+/* response */
+@media only screen and (max-width: 768px) {
+    .movie-overview .mo-main .container {
+      flex-direction: column;
+    }
+    .movie-overview .mo-main .mom-poster {
+      width: 320px;
+      height: auto;
+      margin:0 auto;
+      margin-bottom: 50px;
+    }
+    .movie-overview .mo-main .mom-detail {
+      max-width: 100%;
+      margin:0;
+    }
+    .movie-overview .mo-main .mom-detail .momd-morefeatures {
+      flex-direction: column;
+    }
+    .movie-overview .mo-trailer .mo-trailer-container{
+      width:90%;
+    }
+}
+@media only screen and (max-width: 586px) {
+    .movie-overview .mo-trailer .mo-trailer-container{
+      height: 300px;
+    }
+    .movie-overview .mo-main .mom-poster {
+      width: 250px;
+    }
+}
+@media only screen and (max-width: 320px) {
+    .movie-overview .mo-main .mom-poster {
+      width: 90%;
+    }
+}
+/*  */
 </style>

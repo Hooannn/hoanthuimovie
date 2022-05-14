@@ -1,15 +1,16 @@
 <template>
   <div id="nav-bar" class='show'>
       <div style='height:100%' class="container">
-          <div class="nb-logo">
-              <img :src="logo" alt="Logo Image">
+          <div @click='$router.push({name:"movie-view",params:{type:"now_playing",page:1}})' class="nb-logo">
+              <img class='nb-logo-img-pc' :src="logopc" alt="Logo Image">
+              <img class='nb-logo-img-mb' :src="logomb" alt="Logo Image">
           </div>
           <div class="nb-search">
               <div @click='showSearch' class="nbs-icon center">
                   <ion-icon style='transition:.2s linear;pointerEvents:none' class='icon' name="search-outline"></ion-icon>
               </div>
               <div class="nbs-input">
-                  <input @focus="onFocus" @blur="lostFocus" placeholder="Search..." type="text" >
+                  <input @keypress.enter="searchMovie" @focus="onFocus" @blur="lostFocus" v-model="searchVal" placeholder="Search..." type="text" >
               </div>
           </div>
           <div style='height:100%' class="nb-content">
@@ -38,12 +39,16 @@
 
 <script>
 import logo from '@/assets/Logo/logo.png'
+import logo1 from '@/assets/Logo/logo1.png'
 import NavMobile from './NavMobile.vue'
+import axios from 'axios'
 export default {
   components: { NavMobile },
     data() {
         return {
-            logo:logo
+            logopc:logo,
+            logomb:logo1,
+            searchVal:''
         }
     },
     methods: {
@@ -65,6 +70,14 @@ export default {
         },
         showLogin() {
             document.querySelector('#app>div.login-modal').classList.add('show')
+        },
+        searchMovie() {
+            if (this.searchVal==null || this.searchVal.trim()=='') {
+                return
+            }
+            else {
+                this.$router.push({name:'movie-view',params:{type:'search',page:1},query:{q:this.searchVal}})
+            }
         }
     }
 }
@@ -74,6 +87,7 @@ export default {
 #nav-bar {
     width: 100vw;
     background-color:var(--dark);
+    background-color:black;
     height: 0;
     visibility: hidden;
     opacity: 0;
@@ -94,11 +108,15 @@ export default {
 #nav-bar .nb-logo {
     height: 95%;
     width: 170px;
+    cursor: pointer;
 }
 #nav-bar .nb-logo img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+#nav-bar .nb-logo .nb-logo-img-mb{
+    display: none;
 }
 #nav-bar .nb-search {
     display: flex;
@@ -163,11 +181,25 @@ export default {
 
 /* responsive */
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 992px) {
     #nav-bar .nb-content,#nav-bar .nb-account>button{
         display: none;
     }
+    #nav-bar .nb-logo .nb-logo-img-pc {
+        display: none;
+    }
+    #nav-bar .nb-logo .nb-logo-img-mb {
+        display: unset;
+    }
+    #nav-bar .nb-logo {
+        width: auto;
+        margin-right: 10px;
+    }
 }
-
+@media only screen and (max-width: 340px) {
+    #nav-bar .nb-logo {
+        display: none;
+    }
+}
 /*  */
 </style>

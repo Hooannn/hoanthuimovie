@@ -1,6 +1,7 @@
 const app = {
     state: () => ({ 
-        apiKey:'8f6404b00f28edf5b407334b8c89500c'
+        apiKey:'8f6404b00f28edf5b407334b8c89500c',
+        viewMode:'list'
     }),
     mutations: { 
         

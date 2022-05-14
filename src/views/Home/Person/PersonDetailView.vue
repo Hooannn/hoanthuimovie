@@ -2,7 +2,7 @@
   <div class="person-detail-view">
       <div class="container">
           <div class="ps-shortinfo">
-              <img style='width:100%;height:100%;objectFit:cover;borderRadius:10px;boxShadow:0 0 2px rgba(0,0,0,0.4);maxHeight:400px' :src="'https://image.tmdb.org/t/p/w300'+person.profile_path" :alt="person.name+' image'">
+              <img :src="'https://image.tmdb.org/t/p/w300'+person.profile_path" :alt="person.name+' image'">
               <div style='color:white;fontSize:17px;margin:10px 0'>PERSONAL INFO</div>
               <div v-if='person.known_for_department'>
                   <span>Known For</span>
@@ -107,6 +107,14 @@ export default {
     flex-direction: column;
     width: 300px;
 }
+.person-detail-view .container .ps-shortinfo>img {
+    max-height: 400px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius:10px;
+    box-shadow:0 0 2px rgba(0,0,0,0.4)
+}
 .person-detail-view .container .ps-shortinfo div:not(.pss-knownas) {
     display: flex;
     flex-direction: column;
@@ -142,4 +150,34 @@ export default {
     color:silver;
     font-weight: lighter;
 }
+
+/* response */
+@media only screen and (max-width: 992px) {
+    .person-detail-view .container .ps-moreinfo {
+        max-width: 57%;
+    }
+    .person-detail-view .container .ps-shortinfo {
+        width: 200px;
+    }
+    .person-detail-view .container .ps-shortinfo>img {
+        max-height: 300px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .person-detail-view .container {
+        flex-direction: column;
+    }
+    .person-detail-view .container .ps-shortinfo {
+        width: 100%;
+    }
+    .person-detail-view .container .ps-shortinfo>img {
+        width: 300px;
+        max-height: 400px;
+        margin:0 auto;
+    }
+    .person-detail-view .container .ps-moreinfo {
+        max-width: 100%;
+    }
+}
+/*  */
 </style>

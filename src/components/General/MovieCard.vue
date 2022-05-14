@@ -16,7 +16,7 @@
           <img style='width:100%;height:100%;objectFit:cover;transition:.2s linear' :src="'https://image.tmdb.org/t/p/w500'+movie.poster_path" :alt="movie.title + ' poster'">
       </div>
       <div class='mc-title center'>
-          <span>{{movie.title}}</span>
+          <span :style='{color:getTitleColor}'>{{movie.title}}</span>
       </div>
   </div>
 </template>
@@ -24,7 +24,16 @@
 <script>
 export default {
     props:{
-        movie:Object
+        movie:Object,
+        type:String
+    },
+    computed:{
+        getTitleColor() {
+            if (this.type=="recommend") {
+                return 'black'
+            }
+            return "whitesmoke"
+        }
     }
 }
 </script>
@@ -33,7 +42,7 @@ export default {
 .movie-card {
     width: 300px;
     height: 500px;
-    margin:25px 0;
+    margin:25px auto;
     max-height: 500px;
     cursor: pointer;
     position: relative;
@@ -49,7 +58,6 @@ export default {
     filter: blur(8px);
 }
 .movie-card .mc-title {
-    color:whitesmoke;
     text-align: center;
     padding:5px 0;
 }

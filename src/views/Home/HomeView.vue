@@ -1,7 +1,8 @@
 <template>
   <div class="home-view">
       <nav-bar/>
-      <router-view :key='"path"+$route.fullPath'/>
+      <!--<router-view :key='"path"+$route.fullPath'/>-->
+      <router-view/>
       <footer-bar/>
   </div>
 </template>

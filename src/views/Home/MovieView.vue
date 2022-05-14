@@ -95,10 +95,5 @@ export default {
 
 /* responsive */
 
-@media only screen and (max-width: 768px) {
-    .movie-view .container {
-        justify-content: space-around;
-    }
-}
 /*  */
 </style>

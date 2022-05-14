@@ -2,9 +2,9 @@
   <div class="movie-detail-view">
       <movie-overview :trailer='getTrailer' :keywords='keywords' :externalID='externalID' :director='getDirector' :backdropPath='movie.backdrop_path' :movie='movie'/>
       <movie-cast :cast='cast'/>
-      <movie-crew />
-      <movie-videos/>
-      <movie-recommend/>
+      <movie-crew :crew='crew'/>
+      <movie-videos :videos='getYoutubeVideos'/>
+      <movie-recommend :recommendations='recommendations'/>
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
     data() {
         return {
             movie:{},
+            recommendations:[],
             cast:[],
             crew:[],
             externalID:{},
@@ -28,6 +29,9 @@ export default {
         }
     },
     computed: {
+        getYoutubeVideos() {
+            return this.videos.filter(v=>v.site=="YouTube")
+        },
         getDirector() {
             return this.crew.find(p=>p.job=="Director")
         },
@@ -52,7 +56,13 @@ export default {
                         this.keywords=res.data.keywords
                         axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/videos?api_key=${this.$store.state.app.apiKey}&language=en-US`).then((res)=>{
                             this.videos=res.data.results
-                            this.$store.dispatch('unload')
+                            axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/recommendations?api_key=${this.$store.state.app.apiKey}&language=en-US&page=1`).then(res=>{
+                                this.recommendations=res.data.results
+                                this.$store.dispatch('unload')
+                            }).catch(err=>{
+                                alert(err)
+                                this.$store.dispatch('unload')
+                            })
                         }).catch(err=>{
                             alert(err)
                             this.$store.dispatch('unload')

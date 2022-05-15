@@ -20,7 +20,7 @@
           </div>
           <div class="mlii-genres mlii-userscore">
               <div class='mliig'>
-                  <span style='display:inline-block' v-for='(r,idx) in movie.genres' :key='idx'>{{r.name}}</span>
+                  <span @click='$router.push({name:"movie-view",params:{type:"search",page:1},query:{q:r.name}})' style='display:inline-block' v-for='(r,idx) in movie.genres' :key='idx'>{{r.name}}</span>
               </div>
               <div v-if='movie.vote_average' class='mliiu'>
                   <vue-ellipse-progress 

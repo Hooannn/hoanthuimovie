@@ -12,6 +12,9 @@
               <div class="nbs-input">
                   <input @keypress.enter="searchMovie" @focus="onFocus" @blur="lostFocus" v-model="searchVal" placeholder="Search..." type="text" >
               </div>
+              <div @click='searchMovie' v-if='searchVal.trim()!=""&&searchVal!=null' onMouseOut='this.style.textDecoration="unset"' onMouseOver='this.style.textDecoration="underline"' style='color:white;padding:5px;fontWeight:lighter;fontSize:14px;borderRadius:3px' class="nbs-button">
+                  Go
+              </div>
           </div>
           <div style='height:100%' class="nb-content">
               <div :class='{selected:$route.params.type=="now_playing"}' @click='$router.push({name:"movie-view",params:{type:"now_playing",page:1}})' class="nbc-now-playing">
@@ -28,9 +31,19 @@
               </div>
           </div>
           <div style='position:absolute;right:5px;height:100%' class="nb-account center">
-              <button @click='showLogin' class="btn btn-sm btn-danger">
+              <button v-if='$store.state.user.email==null' @click='showLogin' class="btn btn-sm btn-danger">
                   Login
               </button>
+              <div class='nba-acc center' onMouseOut='this.style.color="white"' onMouseOver='this.style.color="orange"' style='position:relative;cursor:pointer;color:white;fontWeight:lighter;fontSize:14px' v-if='$store.state.user.email!=null'>
+                  {{$store.state.user.email}} <span class='center' style='marginLeft:5px;fontSize:17px'><ion-icon name="chevron-down-outline"></ion-icon></span>
+                  <div class="nbaa-dropdown" style='display:flex;flexDirection:column;'>
+                      <span>Account</span>
+                      <span>List</span>
+                      <span>Watchlist</span>
+                      <span>Favorite</span>
+                      <span @click='logOut'>Logout</span>
+                  </div>
+              </div>
               <nav-mobile/>
           </div>
       </div>
@@ -38,10 +51,10 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
 import logo from '@/assets/Logo/logo.png'
 import logo1 from '@/assets/Logo/logo1.png'
 import NavMobile from './NavMobile.vue'
-import axios from 'axios'
 export default {
   components: { NavMobile },
     data() {
@@ -78,6 +91,19 @@ export default {
             else {
                 this.$router.push({name:'movie-view',params:{type:'search',page:1},query:{q:this.searchVal}})
             }
+        },
+        logOut() {
+            this.$store.dispatch('loading')
+            firebase.auth().signOut().then(() => {
+                this.$store.state.user={}
+                if (this.$route.params.type=="now_playing") {
+                    setTimeout(this.$router.go(),300)
+                }
+                setTimeout(this.$router.push({name:"movie-view",params:{type:"now_playing",page:1}}),300)
+            }).catch((error) => {
+                alert(error)
+                this.$store.dispatch('unload')
+            });
         }
     }
 }
@@ -122,6 +148,9 @@ export default {
     display: flex;
     height: 100%;
     align-items: center;
+}
+#nav-bar .nb-search .nbs-button {
+    display: none;
 }
 #nav-bar .nb-search .nbs-icon{
     background-color:var(--orange);
@@ -178,11 +207,35 @@ export default {
     color:var(--orange);
     font-weight: normal;
 }
-
+#nav-bar .nb-content,#nav-bar .nb-account .nba-acc:hover .nbaa-dropdown {
+    visibility: visible;
+    opacity: 1;
+}
+#nav-bar .nb-content,#nav-bar .nb-account .nba-acc .nbaa-dropdown{
+    visibility: hidden;
+    opacity: 0;
+    position:absolute;
+    top:100%;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    width: 103%;
+    color:black;
+}
+#nav-bar .nb-content,#nav-bar .nb-account .nba-acc .nbaa-dropdown span {
+    padding:5px;
+    transition: .1s linear;
+}
+#nav-bar .nb-content,#nav-bar .nb-account .nba-acc .nbaa-dropdown span:hover {
+    border-left: 3px solid orange;
+    color:orange;
+}
 /* responsive */
 
 @media only screen and (max-width: 992px) {
     #nav-bar .nb-content,#nav-bar .nb-account>button{
+        display: none;
+    }
+    #nav-bar .nb-content,#nav-bar .nb-account .nba-acc {
         display: none;
     }
     #nav-bar .nb-logo .nb-logo-img-pc {
@@ -194,6 +247,11 @@ export default {
     #nav-bar .nb-logo {
         width: auto;
         margin-right: 10px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    #nav-bar .nb-search .nbs-button {
+        display: unset;
     }
 }
 @media only screen and (max-width: 340px) {

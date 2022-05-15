@@ -58,6 +58,7 @@ export default {
                             this.videos=res.data.results
                             axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}/recommendations?api_key=${this.$store.state.app.apiKey}&language=en-US&page=1`).then(res=>{
                                 this.recommendations=res.data.results
+                                document.documentElement.scrollTop=0
                                 this.$store.dispatch('unload')
                             }).catch(err=>{
                                 alert(err)

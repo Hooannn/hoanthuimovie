@@ -40,13 +40,29 @@
           UPCOMING
         </div>
         <div
-          @click="$router.push({ name: 'account' }), closeNavMobile()"
-          :class="{ selected: $route.params.type == 'account' }"
-          class="nb-item"
+          v-if='$store.state.user.email!=null'
+          class="nb-item nb-acc"
         >
           ACCOUNT
         </div>
         <div
+          v-if='$store.state.user.email!=null'
+          class="nb-item nb-acc"
+        >
+          LIST
+        </div><div
+          v-if='$store.state.user.email!=null'
+          class="nb-item nb-acc"
+        >
+          WATCHLIST
+        </div><div
+          v-if='$store.state.user.email!=null'
+          class="nb-item nb-acc"
+        >
+          FAVORITE
+        </div>
+        <div
+          v-if='$store.state.user.email==null'
           @click="showLoginModal(), closeNavMobile()"
           class="nb-login"
         >
@@ -54,7 +70,7 @@
             LOGIN
           </button>
         </div>
-        <!--
+        
         <div
           v-if="$store.state.user.email != null"
           @click="logOut(), closeNavMobile()"
@@ -64,10 +80,9 @@
             LOGOUT
           </button>
         </div>
-        -->
+        <!--
         <div class="nb-account">
-          <!-- unlogin -->
-          <div
+          <div v-if='$store.state.user.email==null'
             class="default-account center"
           >
             <div style="fontSize: 30px" class="da-avatar center">
@@ -77,33 +92,26 @@
               <span>User</span>
             </div>
           </div>
-          <!-- is login -->
-          <!--
+          
           <div
-            @click="$router.push({ name: 'account' }), closeNavMobile()"
+          
             v-if="$store.state.user.email != null"
             class="default-account center"
           >
-            <div
-              v-if="$store.state.user.photoURL == null"
-              style="fontsize: 30px"
-              class="da-avatar center"
-            >
-              <ion-icon name="person-circle"></ion-icon>
-            </div>
             <div class="da-info center" style="flexDirection: column">
               <span>{{ $store.state.user.email }}</span>
             </div>
           </div>
-          -->
-          <!-- -->
+          
         </div>
+        -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase/app'
 export default {
     methods:{
         showLoginModal() {
@@ -132,6 +140,20 @@ export default {
                     cover.classList.remove('show')
                 },300)
             }
+        },
+        logOut() {
+            this.$store.dispatch('loading')
+            firebase.auth().signOut().then(() => {
+                this.closeNavMobile()
+                this.$store.state.user={}
+                if (this.$route.params.type=="now_playing") {
+                    setTimeout(this.$router.go(),300)
+                }
+                setTimeout(this.$router.push({name:"movie-view",params:{type:"now_playing",page:1}}),300)
+            }).catch((error) => {
+                alert(error)
+                this.$store.dispatch('unload')
+            });
         },
     }
 };

@@ -26,7 +26,7 @@
               <div style='marginLeft:5px;color:white;fontSize:14px'><ion-icon style='fontSize:8px;color:silver' name="ellipse"></ion-icon> {{movie.runtime}} minutes</div>
             </div>
             <div class="momd-genres">
-              <div v-for='(genre,index) in movie.genres' :key='index' class="momdg-genre">{{genre.name}}</div>
+              <span @click='$router.push({name:"movie-view",params:{type:"search",page:1},query:{q:genre.name}})' v-for='(genre,index) in movie.genres' :key='index' class="momdg-genre">{{genre.name}}</span>
             </div>
             <div class="momd-userscore">
               <vue-ellipse-progress 
@@ -66,7 +66,7 @@
             <div v-if='keywords.length>0' class="momd-keywords">
               <span style='color:rgba(255,255,255,0.7);fontSize:15px;'>KEYWORDS</span> 
               <div style='display:flex;flexWrap:wrap'>
-                <div class='momdk-keyword' v-for='keyword in keywords' :key='keyword.id' style='color:white;'>{{keyword.name}}</div>
+                <div @click='$router.push({name:"movie-view",params:{type:"search_keyword",page:1},query:{q:keyword.name}})' class='momdk-keyword' v-for='keyword in keywords' :key='keyword.id' style='color:white;'>{{keyword.name}}</div>
               </div>
             </div>
             <div class="momd-morefeatures">
@@ -252,9 +252,10 @@ export default {
 }
 .movie-overview .mo-main .mom-detail .momd-genres {
   margin:15px 0;
-  display: flex;
+  max-width: 100%;
 }
 .movie-overview .mo-main .mom-detail .momd-genres .momdg-genre {
+  display: inline-block;
   color:var(--orange);
   padding:4px 8px;
   font-size: 14px;

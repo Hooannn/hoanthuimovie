@@ -168,6 +168,7 @@ export default {
 .footer-bar .bottom-footer {
     padding:10px 0;
     background-color:black;
+    font-weight: lighter;
 }
 .footer-bar .bottom-footer .bf-content {
     display: flex;

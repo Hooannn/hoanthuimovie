@@ -1,8 +1,8 @@
 <template>
   <div @click='close_' class="signup-modal center">
       <div class="sm-form">
-          <span style='color:red;fontSize:14px;fontWeight:bold'>{{err}}</span>
-          <span style='color:green;fontSize:14px;fontWeight:bold'>{{result}}</span>
+          <span style='color:red;fontSize:14px;'>{{err}}</span>
+          <span style='color:green;fontSize:14px;'>{{result}}</span>
           <ion-icon @click='close' onMouseOut='this.style.color="grey";this.style.transform="rotate(0) scale(1)"' onMouseOver='this.style.color="var(--orange)";this.style.transform="rotate(90deg) scale(1.07)"' style='transition:.3s linear;position:absolute;top:10px;right:10px;fontSize:30px;color:grey;cursor:pointer' name="close-circle-outline"></ion-icon>
           <div class='smf-title center' style='fontWeight:light;fontSize:20px;padding:10px 0'>Sign Up</div>
           <input @keypress.enter="signup" v-model='email' placeholder="Your email address..." style='width:100%;padding:8px 10px;margin:8px 0;borderRadius:3px;fontSize:14px' type="email">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-//import firebase from "firebase/app";
+import firebase from "firebase/app";
 export default {
     data() {
         return {
@@ -83,7 +83,6 @@ export default {
             this.password2=''
         },
         signup() {
-            /*
             if (this.confirmPassword()) {
                 this.$store.dispatch('loading')
                 firebase
@@ -103,7 +102,6 @@ export default {
             else {
                 return
             }
-            */
         }
     }
 }

@@ -1,12 +1,12 @@
 <template>
   <div class="movie-view">
       <movie-view-hero v-if='$route.params.type=="now_playing"||$route.params.type=="popular"||$route.params.type=="top_rated"||$route.params.type=="upcoming"' :movies="movies"/>
-      <div style='color:white;fontSize:bolder;textShadow:0 0 3px rgba(0,0,0,0.4);fontSize:26px;borderBottom:3px solid var(--orange);maxWidth:300px;margin:25px auto;marginTop:50px' class="npv-title center">
+      <div style='color:white;fontSize:bolder;textShadow:0 0 3px rgba(0,0,0,0.4);fontSize:26px;borderBottom:3px solid var(--orange);maxWidth:250px;margin:25px auto;marginTop:50px' class="npv-title center">
           <span v-if='$route.params.type=="now_playing"'>NOW PLAYING</span>
           <span v-if='$route.params.type=="popular"'>POPULAR</span>
           <span v-if='$route.params.type=="top_rated"'>TOP RATED</span>
           <span v-if='$route.params.type=="upcoming"'>UPCOMING</span>
-          <span v-if='$route.params.type=="search"'>RESULTS</span>
+          <span v-if='$route.params.type=="search"||$route.params.type=="search_keyword"'>RESULTS</span>
           <div>
             <span @click='$store.state.app.viewMode="list"' :class="{selected:$store.state.app.viewMode=='list'}" class='icon'><ion-icon  name="list-outline"></ion-icon></span>
             <span @click='$store.state.app.viewMode="grid"' :class="{selected:$store.state.app.viewMode=='grid'}" class='icon'><ion-icon  name="grid-outline"></ion-icon></span>
@@ -73,6 +73,7 @@ export default {
         .then((res)=>{
           this.movies=res.data.results
           this.totalPages=res.data.total_pages
+          document.documentElement.scrollTop=0
           this.$store.dispatch('unload')
         })
         .catch((err)=>{
@@ -86,6 +87,21 @@ export default {
         .then((res)=>{
           this.movies=res.data.results
           this.totalPages=res.data.total_pages
+          document.documentElement.scrollTop=0
+          this.$store.dispatch('unload')
+        })
+        .catch((err)=>{
+          alert(err)
+          this.$store.dispatch('unload')
+        })
+    },
+    getMovies_search_keyword() {
+      this.$store.dispatch('loading')
+      axios.get(`https://api.themoviedb.org/3/search/keyword?api_key=${this.$store.state.app.apiKey}&language=en-US&query=${this.$route.query.q}&page=${this.$route.params.page}&include_adult=true`)
+        .then((res)=>{
+          this.movies=res.data.results
+          this.totalPages=res.data.total_pages
+          document.documentElement.scrollTop=0
           this.$store.dispatch('unload')
         })
         .catch((err)=>{
@@ -107,6 +123,9 @@ export default {
     this.currentPage=this.$route.params.page
     if (this.$route.params.type=='search') {
       this.getMovies_search()
+    }
+    if (this.$route.params.type=='search_keyword') {
+      this.getMovies_search_keyword()
     }
     this.getMovies()
   }

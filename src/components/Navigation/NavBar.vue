@@ -207,11 +207,11 @@ export default {
     color:var(--orange);
     font-weight: normal;
 }
-#nav-bar .nb-content,#nav-bar .nb-account .nba-acc:hover .nbaa-dropdown {
+#nav-bar .nb-account .nba-acc:hover .nbaa-dropdown {
     visibility: visible;
     opacity: 1;
 }
-#nav-bar .nb-content,#nav-bar .nb-account .nba-acc .nbaa-dropdown{
+#nav-bar .nb-account .nba-acc .nbaa-dropdown{
     visibility: hidden;
     opacity: 0;
     position:absolute;
@@ -221,11 +221,11 @@ export default {
     width: 103%;
     color:black;
 }
-#nav-bar .nb-content,#nav-bar .nb-account .nba-acc .nbaa-dropdown span {
+#nav-bar .nb-account .nba-acc .nbaa-dropdown span {
     padding:5px;
     transition: .1s linear;
 }
-#nav-bar .nb-content,#nav-bar .nb-account .nba-acc .nbaa-dropdown span:hover {
+#nav-bar .nb-account .nba-acc .nbaa-dropdown span:hover {
     border-left: 3px solid orange;
     color:orange;
 }

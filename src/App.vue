@@ -57,6 +57,9 @@ export default {
 {
 	background-color: var(--dark);
 }
+::-webkit-scrollbar-thumb:hover {
+  background-color:rgb(49, 49, 49,0.8);
+}
 /* */
 .modal-backdrop {
   background-color:rgba(0,0,0,0.4);

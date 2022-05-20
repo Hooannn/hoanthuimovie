@@ -4,7 +4,7 @@
               <div class="tf-content">
                 <div class="tf-store">
                     <div style='display:flex'>
-                        <img style='width:165px;height:50px' :src="icon">
+                        <img style='width:150px;height:50px' :src="icon">
                     </div>
                     <div>
                         <span><strong>Phone:</strong> 07070101010</span>
